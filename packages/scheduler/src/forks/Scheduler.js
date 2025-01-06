@@ -88,8 +88,8 @@ var currentPriorityLevel = NormalPriority;
 // This is set while performing work, to prevent re-entrance.
 var isPerformingWork = false;
 
-var isHostCallbackScheduled = false;
-var isHostTimeoutScheduled = false;
+var isHostCallbackScheduled = false; // 是否调度主线程任务
+var isHostTimeoutScheduled = false; //是否调度延迟任务
 
 var needsPaint = false;
 
@@ -100,6 +100,7 @@ const localClearTimeout =
 const localSetImmediate =
   typeof setImmediate !== 'undefined' ? setImmediate : null; // IE and Node.js + jsdom
 
+// INFO 管理计时器任务，判断是否需要将任务添加到任务队列中
 function advanceTimers(currentTime: number) {
   // Check for tasks that are no longer delayed and add them to the queue.
   let timer = peek(timerQueue);
@@ -124,17 +125,22 @@ function advanceTimers(currentTime: number) {
   }
 }
 
+// 超时的处理机制
 function handleTimeout(currentTime: number) {
   isHostTimeoutScheduled = false;
+  // 如果有任务超时，则加入到任务队列
   advanceTimers(currentTime);
-
+  // 没有主线程任务调度时
   if (!isHostCallbackScheduled) {
+    // 如果任务队列中有任务，则调度主线程任务
     if (peek(taskQueue) !== null) {
       isHostCallbackScheduled = true;
       requestHostCallback();
     } else {
+      // 不然则调度低延迟任务
       const firstTimer = peek(timerQueue);
       if (firstTimer !== null) {
+        // 在firstTimer任务开始后，在重新判断是否需要把剩余任务加入到任务队列中
         requestHostTimeout(handleTimeout, firstTimer.startTime - currentTime);
       }
     }
@@ -184,7 +190,7 @@ function flushWork(initialTime: number) {
     }
   }
 }
-
+// 一个work就是一个时间切片执行
 function workLoop(initialTime: number) {
   let currentTime = initialTime;
   advanceTimers(currentTime);
@@ -392,9 +398,9 @@ function unstable_scheduleCallback(
         // Cancel an existing timeout.
         cancelHostTimeout();
       } else {
-        isHostTimeoutScheduled = true;
+        isHostTimeoutSchedtimeuled = true;
       }
-      // Schedule a timeout.
+      // Schedule a out.
       requestHostTimeout(handleTimeout, startTime - currentTime);
     }
   } else {
@@ -482,6 +488,7 @@ function forceFrameRate(fps: number) {
   }
 }
 
+// 这次事件切片用完
 const performWorkUntilDeadline = () => {
   if (enableRequestPaint) {
     needsPaint = false;
@@ -547,6 +554,7 @@ if (typeof localSetImmediate === 'function') {
 }
 
 function requestHostCallback() {
+  // 开启新一轮的messageLoop调度
   if (!isMessageLoopRunning) {
     isMessageLoopRunning = true;
     schedulePerformWorkUntilDeadline();

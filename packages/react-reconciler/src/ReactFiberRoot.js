@@ -191,6 +191,8 @@ export function createFiberRoot(
   // stateNode is any.
   const uninitializedFiber = createHostRootFiber(tag, isStrictMode);
   root.current = uninitializedFiber;
+  // FiberRoot是react中的根， rootFiber是fiber树的根
+  //rootFiber和FiberRoot互相引用，FiberRoot.current === rootFiber
   uninitializedFiber.stateNode = root;
 
   const initialCache = createCache();

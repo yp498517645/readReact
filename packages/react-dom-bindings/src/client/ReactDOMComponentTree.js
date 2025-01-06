@@ -63,6 +63,7 @@ export function precacheFiberNode(
   (node: any)[internalInstanceKey] = hostInst;
 }
 
+// 初始化的时候 hostRoot就是rootFiber
 export function markContainerAsRoot(hostRoot: Fiber, node: Container): void {
   // $FlowFixMe[prop-missing]
   node[internalContainerInstanceKey] = hostRoot;

@@ -20,6 +20,7 @@ export function push<T: Node>(heap: Heap<T>, node: T): void {
   siftUp(heap, node, index);
 }
 
+// 获取最小堆首
 export function peek<T: Node>(heap: Heap<T>): T | null {
   return heap.length === 0 ? null : heap[0];
 }

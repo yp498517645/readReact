@@ -220,7 +220,7 @@ export function createRoot(
       transitionCallbacks = options.unstable_transitionCallbacks;
     }
   }
-
+  // 创建FiberRoot
   const root = createContainer(
     container,
     ConcurrentRoot,
@@ -233,6 +233,7 @@ export function createRoot(
     onRecoverableError,
     transitionCallbacks,
   );
+  //FiberRoot的current是rootFiber
   markContainerAsRoot(root.current, container);
 
   const rootContainerElement: Document | Element | DocumentFragment =

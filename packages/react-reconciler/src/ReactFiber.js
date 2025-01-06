@@ -521,6 +521,7 @@ export function resetWorkInProgress(
   return workInProgress;
 }
 
+// 创建rootFiber => fiber树的根节点
 export function createHostRootFiber(
   tag: RootTag,
   isStrictMode: boolean,
