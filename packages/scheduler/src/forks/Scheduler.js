@@ -137,10 +137,10 @@ function handleTimeout(currentTime: number) {
       isHostCallbackScheduled = true;
       requestHostCallback();
     } else {
-      // 不然则调度低延迟任务
+      // 调度低优先级任务
       const firstTimer = peek(timerQueue);
       if (firstTimer !== null) {
-        // 在firstTimer任务开始后，在重新判断是否需要把剩余任务加入到任务队列中
+        // 开始对低优先级任务计时
         requestHostTimeout(handleTimeout, firstTimer.startTime - currentTime);
       }
     }
@@ -561,6 +561,7 @@ function requestHostCallback() {
   }
 }
 
+// 对低优先级任务开始计时
 function requestHostTimeout(
   callback: (currentTime: number) => void,
   ms: number,
