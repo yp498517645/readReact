@@ -97,6 +97,7 @@ function ReactDOMRoot(internalRoot: FiberRoot) {
 }
 
 // $FlowFixMe[prop-missing] found when upgrading Flow
+// INFO react.render函数 此时FiberRoot已经有了
 ReactDOMHydrationRoot.prototype.render = ReactDOMRoot.prototype.render =
   // $FlowFixMe[missing-this-annot]
   function (children: ReactNodeList): void {
@@ -125,6 +126,7 @@ ReactDOMHydrationRoot.prototype.render = ReactDOMRoot.prototype.render =
         );
       }
     }
+    // INFO 更新容器,将children加入创建的FiberRoot中
     updateContainer(children, root, null, null);
   };
 
@@ -161,6 +163,7 @@ ReactDOMHydrationRoot.prototype.unmount = ReactDOMRoot.prototype.unmount =
     }
   };
 
+  // INFO 创建FiberRoot并关联container
 export function createRoot(
   container: Element | Document | DocumentFragment,
   options?: CreateRootOptions,
@@ -220,7 +223,7 @@ export function createRoot(
       transitionCallbacks = options.unstable_transitionCallbacks;
     }
   }
-  // 创建FiberRoot
+  // INFO 创建FiberRoot
   const root = createContainer(
     container,
     ConcurrentRoot,
@@ -233,7 +236,7 @@ export function createRoot(
     onRecoverableError,
     transitionCallbacks,
   );
-  //FiberRoot的current是rootFiber
+  //INFO FiberRoot的current是rootFiber
   markContainerAsRoot(root.current, container);
 
   const rootContainerElement: Document | Element | DocumentFragment =

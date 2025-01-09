@@ -13,7 +13,7 @@
 // Tab or newline are defined as \r\n\t:
 // https://infra.spec.whatwg.org/#ascii-tab-or-newline
 // A C0 control is a code point in the range \u0000 NULL to \u001F
-// INFORMATION SEPARATOR ONE, inclusive:
+// SEPARATOR ONE, inclusive:
 // https://infra.spec.whatwg.org/#c0-control-or-space
 
 const isJavaScriptProtocol =

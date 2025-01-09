@@ -255,6 +255,7 @@ export function createContainer(
 ): OpaqueRoot {
   const hydrate = false;
   const initialChildren = null;
+  // INFO 具体创建FiberRoot并返回,内部初始化updateQueue队列并与fiber关联
   return createFiberRoot(
     containerInfo,
     tag,
@@ -346,7 +347,9 @@ export function updateContainer(
   callback: ?Function,
 ): Lane {
   const current = container.current;
+  // INFO 更新lane
   const lane = requestUpdateLane(current);
+  // INFO 更新容器具体实现
   updateContainerImpl(
     current,
     lane,
@@ -418,7 +421,7 @@ function updateContainerImpl(
       );
     }
   }
-
+  //INFO 5-初始化更新创建更新对象
   const update = createUpdate(lane);
   // Caution: React DevTools currently depends on this property
   // being called "element".
@@ -437,7 +440,7 @@ function updateContainerImpl(
     }
     update.callback = callback;
   }
-
+  //INFO 6-更新对象与Fiber绑定
   const root = enqueueUpdate(rootFiber, update, lane);
   if (root !== null) {
     startUpdateTimerByLane(lane);
