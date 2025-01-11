@@ -98,6 +98,7 @@ function ReactDOMRoot(internalRoot: FiberRoot) {
 
 // $FlowFixMe[prop-missing] found when upgrading Flow
 // INFO react.render函数 此时FiberRoot已经有了
+
 ReactDOMHydrationRoot.prototype.render = ReactDOMRoot.prototype.render =
   // $FlowFixMe[missing-this-annot]
   function (children: ReactNodeList): void {
