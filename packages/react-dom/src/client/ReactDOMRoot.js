@@ -164,7 +164,7 @@ ReactDOMHydrationRoot.prototype.unmount = ReactDOMRoot.prototype.unmount =
     }
   };
 
-  // INFO 创建FiberRoot并关联container
+  // INFO 创建FiberRoot并关联container 也就是ReactDOM.render的第一个参数
 export function createRoot(
   container: Element | Document | DocumentFragment,
   options?: CreateRootOptions,

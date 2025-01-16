@@ -421,7 +421,7 @@ function updateContainerImpl(
       );
     }
   }
-  //INFO 5-初始化更新创建更新对象
+  //INFO 初始化更新创建更新对象
   const update = createUpdate(lane);
   // Caution: React DevTools currently depends on this property
   // being called "element".
@@ -440,7 +440,7 @@ function updateContainerImpl(
     }
     update.callback = callback;
   }
-  //INFO 6-更新对象与Fiber绑定
+  //INFO 更新对象与Fiber绑定
   const root = enqueueUpdate(rootFiber, update, lane);
   if (root !== null) {
     startUpdateTimerByLane(lane);
