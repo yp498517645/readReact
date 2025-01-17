@@ -787,6 +787,7 @@ export function scheduleUpdateOnFiber(
   ) {
     // The incoming update might unblock the current render. Interrupt the
     // current attempt and restart from the top.
+    // INFO 如果是suspend状态，则重置wordInProgress树
     prepareFreshStack(root, NoLanes);
     const didAttemptEntireTree = false;
     markRootSuspended(
@@ -798,6 +799,7 @@ export function scheduleUpdateOnFiber(
   }
 
   // Mark that the root has a pending update.
+  // INFO 标记FiberRoot对应更新的lane
   markRootUpdated(root, lane);
 
   if (
