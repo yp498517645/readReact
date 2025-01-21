@@ -255,7 +255,7 @@ export function createContainer(
 ): OpaqueRoot {
   const hydrate = false;
   const initialChildren = null;
-  // INFO 具体创建FiberRoot并返回,内部初始化updateQueue队列并与fiber关联
+  // INFO 创建FiberRoot并返回,内部初始化updateQueue队列并与fiber关联
   return createFiberRoot(
     containerInfo,
     tag,

@@ -125,7 +125,7 @@ function advanceTimers(currentTime: number) {
   }
 }
 
-// 超时的处理机制
+// INFO 超时的处理机制
 function handleTimeout(currentTime: number) {
   isHostTimeoutScheduled = false;
   // 如果有任务超时，则加入到任务队列
