@@ -323,6 +323,7 @@ import {logUncaughtError} from './ReactFiberErrorLogger';
 
 const PossiblyWeakMap = typeof WeakMap === 'function' ? WeakMap : Map;
 
+// INFO 执行的阶段
 type ExecutionContext = number;
 
 export const NoContext = /*             */ 0b000;

@@ -84,6 +84,7 @@ let firstScheduledRoot: FiberRoot | null = null;
 let lastScheduledRoot: FiberRoot | null = null;
 
 // Used to prevent redundant mircotasks from being scheduled.
+// INFO 保证一次ensureRootIsScheduled只调度一个微任务
 let didScheduleMicrotask: boolean = false;
 // `act` "microtasks" are scheduled on the `act` queue instead of an actual
 // microtask, so we have to dedupe those separately. This wouldn't be an issue
@@ -97,6 +98,8 @@ let isFlushingWork: boolean = false;
 
 let currentEventTransitionLane: Lane = NoLane;
 
+// INFO 确保FiberRoot正确的加入调度队列
+// 因为结合了react的子Fiber的修改会冒泡到父Fiber上，所以可以快速跳过不需要更新的树
 export function ensureRootIsScheduled(root: FiberRoot): void {
   // This function is called whenever a root receives an update. It does two
   // things 1) it ensures the root is in the root schedule, and 2) it ensures
@@ -106,6 +109,8 @@ export function ensureRootIsScheduled(root: FiberRoot): void {
   // `scheduleTaskForRootDuringMicrotask` runs.
 
   // Add the root to the schedule
+  // INFO FiberRoot队列 
+  //队列例子 Root A -> Root B -> Root C -> null
   if (root === lastScheduledRoot || root.next !== null) {
     // Fast path. This root is already scheduled.
   } else {
