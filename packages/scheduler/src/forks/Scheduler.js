@@ -421,6 +421,7 @@ function unstable_scheduleCallback(
   return newTask;
 }
 
+// INFO 取消任务的回调函数
 function unstable_cancelCallback(task: Task) {
   if (enableProfiling) {
     if (task.isQueued) {

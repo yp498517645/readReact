@@ -52,6 +52,7 @@ export function eventPriorityToLane(updatePriority: EventPriority): Lane {
   return updatePriority;
 }
 
+// INFO lane优先级转换为event优先级
 export function lanesToEventPriority(lanes: Lanes): EventPriority {
   const lane = getHighestPriorityLane(lanes);
   if (!isHigherEventPriority(DiscreteEventPriority, lane)) {

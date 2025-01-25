@@ -234,6 +234,7 @@ function flushSyncWorkAcrossRoots_impl(
   isFlushingWork = false;
 }
 
+// INFO 微任务中决定根节点是否需要工作（如更新、渲染等）
 function processRootScheduleInMicrotask() {
   if (enableProfilerTimer && enableComponentPerformanceTrack) {
     // Track the currently executing event if there is one so we can ignore this
@@ -312,6 +313,8 @@ function processRootScheduleInMicrotask() {
   // to come at the end, because it does actual rendering work that might throw.
   flushSyncWorkAcrossRoots_impl(syncTransitionLanes, false);
 }
+
+
 
 function scheduleTaskForRootDuringMicrotask(
   root: FiberRoot,
@@ -410,6 +413,7 @@ function scheduleTaskForRootDuringMicrotask(
     }
 
     let schedulerPriorityLevel;
+    // INFO event优先级转为schedule优先级
     switch (lanesToEventPriority(nextLanes)) {
       // Scheduler does have an "ImmediatePriority", but now that we use
       // microtasks for sync work we no longer use that. Any sync work that
