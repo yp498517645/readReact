@@ -913,6 +913,7 @@ export function isUnsafeClassRenderPhaseUpdate(fiber: Fiber): boolean {
   return (executionContext & RenderContext) !== NoContext;
 }
 
+// INFO 开启render阶段,Fiber树的构建过程
 export function performWorkOnRoot(
   root: FiberRoot,
   lanes: Lanes,
@@ -2370,6 +2371,7 @@ function renderRootSync(
 }
 
 // The work loop is an extremely hot path. Tell Closure not to inline it.
+// INFO render阶段最重要的部分，通过'递''归'创建Fiber树
 /** @noinline */
 function workLoopSync() {
   // Perform work without checking if we need to yield between fiber.

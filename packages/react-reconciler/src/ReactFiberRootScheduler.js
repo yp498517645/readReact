@@ -99,7 +99,7 @@ let isFlushingWork: boolean = false;
 let currentEventTransitionLane: Lane = NoLane;
 
 // INFO 确保FiberRoot正确的加入调度队列
-// 因为结合了react的子Fiber的修改会冒泡到父Fiber上，所以可以快速跳过不需要更新的树
+// 因为react的子Fiber的修改会冒泡到父Fiber上，所以可以快速跳过不需要更新的树
 export function ensureRootIsScheduled(root: FiberRoot): void {
   // This function is called whenever a root receives an update. It does two
   // things 1) it ensures the root is in the root schedule, and 2) it ensures
