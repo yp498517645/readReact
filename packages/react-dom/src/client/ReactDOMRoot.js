@@ -237,7 +237,7 @@ export function createRoot(
     onRecoverableError,
     transitionCallbacks,
   );
-  //INFO FiberRoot的current是rootFiber
+  //INFO FiberRoot的current是rootFiber,通过 DOM 容器快速定位并操作对应的 Fiber 树
   markContainerAsRoot(root.current, container);
 
   const rootContainerElement: Document | Element | DocumentFragment =
