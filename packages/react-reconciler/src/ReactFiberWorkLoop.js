@@ -323,7 +323,6 @@ import {logUncaughtError} from './ReactFiberErrorLogger';
 
 const PossiblyWeakMap = typeof WeakMap === 'function' ? WeakMap : Map;
 
-// INFO 执行到哪一步
 type ExecutionContext = number;
 
 export const NoContext = /*             */ 0b000;
@@ -341,6 +340,7 @@ const RootSuspendedAtTheShell = 6;
 const RootCompleted = 5;
 
 // Describes where we are in the React execution stack
+// INFO 标记执行到哪一步
 let executionContext: ExecutionContext = NoContext;
 // The root we're working on
 let workInProgressRoot: FiberRoot | null = null;
@@ -1085,6 +1085,7 @@ export function performWorkOnRoot(
 
       // We now have a consistent tree. The next step is either to commit it,
       // or, if something suspended, wait to commit it after a timeout.
+     // INFO 完成render阶段，开启commit阶段
       finishConcurrentRender(
         root,
         exitStatus,
@@ -1184,7 +1185,6 @@ export function queueRecoverableErrors(errors: Array<CapturedValue<mixed>>) {
     );
   }
 }
-// INFO 完成render阶段，开启commit阶段
 function finishConcurrentRender(
   root: FiberRoot,
   exitStatus: RootExitStatus,
@@ -3375,12 +3375,14 @@ function commitRootImpl(
     // The first phase a "before mutation" phase. We use this phase to read the
     // state of the host tree right before we mutate it. This is where
     // getSnapshotBeforeUpdate is called.
+    // INFO commit阶段 - before mutation阶段 执行dom操作前
     const shouldFireAfterActiveInstanceBlur = commitBeforeMutationEffects(
       root,
       finishedWork,
     );
 
     // The next phase is the mutation phase, where we mutate the host tree.
+    // INFO commit阶段 - mutation阶段 执行DOM操作,调用需卸载的组件的cleanup函数
     commitMutationEffects(root, finishedWork, lanes);
 
     if (enableCreateEventHandleAPI) {
@@ -3402,6 +3404,7 @@ function commitRootImpl(
     if (enableSchedulingProfiler) {
       markLayoutEffectsStarted(lanes);
     }
+        // INFO commit阶段 - layout阶段 执行DOM操作后,执行类组件的生命周期DidMount就,调用layoutEffect的effect
     commitLayoutEffects(finishedWork, root, lanes);
     if (enableSchedulingProfiler) {
       markLayoutEffectsStopped();
@@ -3733,7 +3736,9 @@ function flushPassiveEffectsImpl(wasDelayedCommit: void | boolean) {
   const prevExecutionContext = executionContext;
   executionContext |= CommitContext;
 
+  // INFO effect的cleanup函数
   commitPassiveUnmountEffects(root.current);
+    // INFO effect的setup函数
   commitPassiveMountEffects(
     root,
     root.current,
