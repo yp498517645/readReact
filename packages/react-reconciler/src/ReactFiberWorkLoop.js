@@ -323,7 +323,7 @@ import {logUncaughtError} from './ReactFiberErrorLogger';
 
 const PossiblyWeakMap = typeof WeakMap === 'function' ? WeakMap : Map;
 
-// INFO 执行的阶段
+// INFO 执行到哪一步
 type ExecutionContext = number;
 
 export const NoContext = /*             */ 0b000;
@@ -801,7 +801,7 @@ export function scheduleUpdateOnFiber(
 
   // Mark that the root has a pending update.
   // INFO 标记FiberRoot对应更新的lane
-  markRootUpdated(root, lane);
+  c(root, lane);
 
   if (
     (executionContext & RenderContext) !== NoLanes &&
@@ -957,7 +957,9 @@ export function performWorkOnRoot(
     (enableSiblingPrerendering && checkIfRootIsPrerendering(root, lanes));
 
   let exitStatus = shouldTimeSlice
+  // 通常是更新渲染
     ? renderRootConcurrent(root, lanes)
+    // 通常是初次渲染
     : renderRootSync(root, lanes, true);
 
   let renderWasConcurrent = shouldTimeSlice;
@@ -1003,11 +1005,14 @@ export function performWorkOnRoot(
       // TODO: It's possible that even a concurrent render may never have yielded
       // to the main thread, if it was fast enough, or if it expired. We could
       // skip the consistency check in that case, too.
+      // INFO render阶段结束,需要做一些收尾检查
       const finishedWork: Fiber = (root.current.alternate: any);
       if (
         renderWasConcurrent &&
+        // INFO 检查并发渲染中断的情况下导致内外状态不一致，如果不一致则重新进行同步渲染
         !isRenderConsistentWithExternalStores(finishedWork)
       ) {
+      
         if (enableProfilerTimer && enableComponentPerformanceTrack) {
           setCurrentTrackFromLanes(lanes);
           logInconsistentRender(renderStartTime, renderEndTime);
@@ -1179,7 +1184,7 @@ export function queueRecoverableErrors(errors: Array<CapturedValue<mixed>>) {
     );
   }
 }
-
+// INFO 完成render阶段，开启commit阶段
 function finishConcurrentRender(
   root: FiberRoot,
   exitStatus: RootExitStatus,
@@ -1402,6 +1407,7 @@ function commitRootWhenReady(
   }
 
   // Otherwise, commit immediately.;
+  // INFO commit阶段
   commitRoot(
     root,
     recoverableErrors,
@@ -3170,6 +3176,7 @@ function commitRootImpl(
     // no more pending effects.
     // TODO: Might be better if `flushPassiveEffects` did not automatically
     // flush synchronous work at the end, to avoid factoring hazards like this.
+    // INFO 在提交阶段需要确保所有之前的副作用已经被应用，从而保证当前提交的Fiber树状态是最新
     flushPassiveEffects();
   } while (rootWithPendingPassiveEffects !== null);
   flushRenderPhaseStrictModeWarningsInDEV();
@@ -3302,12 +3309,14 @@ function commitRootImpl(
       root.callbackNode = null;
       root.callbackPriority = NoLane;
       root.cancelPendingCommit = null;
+      // INFO 调度副作用执行
       scheduleCallback(NormalSchedulerPriority, () => {
         if (enableProfilerTimer && enableComponentPerformanceTrack) {
           // Track the currently executing event if there is one so we can ignore this
           // event when logging events.
           trackSchedulerEvent();
         }
+        // INFO true标记被动效果是否因等待“绘制”而延迟执行
         flushPassiveEffects(true);
         // This render triggered passive effects: release the root cache pool
         // *after* passive effects fire to avoid freeing a cache pool that may
@@ -3667,6 +3676,7 @@ export function flushPassiveEffects(wasDelayedCommit?: boolean): boolean {
   return false;
 }
 
+// INFO commit阶段-刷新旧的effects和挂载新的effects
 function flushPassiveEffectsImpl(wasDelayedCommit: void | boolean) {
   if (rootWithPendingPassiveEffects === null) {
     return false;
