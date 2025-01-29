@@ -3375,7 +3375,7 @@ function commitRootImpl(
     // The first phase a "before mutation" phase. We use this phase to read the
     // state of the host tree right before we mutate it. This is where
     // getSnapshotBeforeUpdate is called.
-    // INFO commit阶段 - before mutation阶段 执行dom操作前
+    // INFO commit阶段 - before mutation阶段 执行dom操作前的准备工作，如防止焦点丢失
     const shouldFireAfterActiveInstanceBlur = commitBeforeMutationEffects(
       root,
       finishedWork,
