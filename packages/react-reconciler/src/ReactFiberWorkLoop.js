@@ -801,7 +801,7 @@ export function scheduleUpdateOnFiber(
 
   // Mark that the root has a pending update.
   // INFO 标记FiberRoot对应更新的lane
-  c(root, lane);
+  markRootUpdated(root, lane);
 
   if (
     (executionContext & RenderContext) !== NoLanes &&
