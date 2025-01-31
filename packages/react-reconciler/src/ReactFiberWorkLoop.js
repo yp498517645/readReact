@@ -913,7 +913,7 @@ export function isUnsafeClassRenderPhaseUpdate(fiber: Fiber): boolean {
   return (executionContext & RenderContext) !== NoContext;
 }
 
-// INFO 开启render阶段,Fiber树的构建过程
+// INFO 开启render阶段 -> commit阶段,Fiber树的构建过程-> dom执行完成
 export function performWorkOnRoot(
   root: FiberRoot,
   lanes: Lanes,
