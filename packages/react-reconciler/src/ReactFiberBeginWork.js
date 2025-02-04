@@ -1061,6 +1061,7 @@ function mountIncompleteFunctionComponent(
   );
 }
 
+// INFO render阶段-beginWork对应函数组件操作
 function updateFunctionComponent(
   current: null | Fiber,
   workInProgress: Fiber,
@@ -3733,6 +3734,7 @@ function attemptEarlyBailoutIfNoScheduledUpdate(
   return bailoutOnAlreadyFinishedWork(current, workInProgress, renderLanes);
 }
 
+// INFO render阶段 - 递
 function beginWork(
   current: Fiber | null,
   workInProgress: Fiber,

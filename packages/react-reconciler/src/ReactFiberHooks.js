@@ -182,12 +182,13 @@ if (__DEV__) {
   didWarnAboutUseFormState = new Set<string | null>();
 }
 
+// INFO hook类型
 export type Hook = {
-  memoizedState: any,
+  memoizedState: any,  // 根据不同hook的类型，所对应的值也不同，比如useState/useReducer存state 而useEffect/useLayoutEffect存单向循环链表
   baseState: any,
   baseQueue: Update<any, any> | null,
   queue: any,
-  next: Hook | null,
+  next: Hook | null, // 指向下一个hook
 };
 
 // The effect "instance" is a shared object that remains the same for the entire
@@ -3988,7 +3989,7 @@ const HooksDispatcherOnUpdate: Dispatcher = {
   useMemo: updateMemo,
   useReducer: updateReducer,
   useRef: updateRef,
-  useState: updateState,
+  useState: updateState, // updateState内部执行的还是updateReducer
   useDebugValue: updateDebugValue,
   useDeferredValue: updateDeferredValue,
   useTransition: updateTransition,
