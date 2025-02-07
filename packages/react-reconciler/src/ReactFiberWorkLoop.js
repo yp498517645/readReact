@@ -3404,7 +3404,7 @@ function commitRootImpl(
     if (enableSchedulingProfiler) {
       markLayoutEffectsStarted(lanes);
     }
-        // INFO commit阶段 - layout阶段 执行DOM操作后,执行类组件的生命周期DidMount就,调用layoutEffect的effect
+        // INFO commit阶段 - layout阶段 执行DOM操作后,执行类组件的生命周期DidMount,调用layoutEffect的effect
     commitLayoutEffects(finishedWork, root, lanes);
     if (enableSchedulingProfiler) {
       markLayoutEffectsStopped();
