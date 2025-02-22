@@ -182,11 +182,12 @@ if (__DEV__) {
   didWarnAboutUseFormState = new Set<string | null>();
 }
 
-// INFO hook类型
+// INFO hook类型及其字段解释
+//baseState 是基于之前的状态和更新队列计算得出的一个基准值，最终通过 reducer 或其他逻辑演变成 memoizedState（最新的状态）。
 export type Hook = {
-  memoizedState: any,  // 根据不同hook的类型，所对应的值也不同，比如useState/useReducer存state 而useEffect/useLayoutEffect存单向循环链表
-  baseState: any,
-  baseQueue: Update<any, any> | null,
+  memoizedState: any,  // 是最新的状态 根据不同hook的类型，所对应的值也不同，比如useState/useReducer存state 而useEffect/useLayoutEffect存单向循环链表
+  baseState: any, // 渲染周期的基准值,而不是组件首次渲染时用户提供的初始值
+  baseQueue: Update<any, any> | null, //循环单链表 比如 A->B->C->A
   queue: any,
   next: Hook | null, // 指向下一个hook
 };
@@ -1348,6 +1349,7 @@ function updateReducerImpl<S, A>(
 
   queue.lastRenderedReducer = reducer;
 
+  
   // The last rebase update that is NOT part of the base state.
   let baseQueue = hook.baseQueue;
 
@@ -3651,6 +3653,7 @@ function dispatchReducerAction<S, A>(
   } else {
     const root = enqueueConcurrentHookUpdate(fiber, queue, update, lane);
     if (root !== null) {
+      // INFO 开始调度
       startUpdateTimerByLane(lane);
       scheduleUpdateOnFiber(root, fiber, lane);
       entangleTransitionUpdate(root, queue, lane);
@@ -3989,7 +3992,7 @@ const HooksDispatcherOnUpdate: Dispatcher = {
   useMemo: updateMemo,
   useReducer: updateReducer,
   useRef: updateRef,
-  useState: updateState, // updateState内部执行的还是updateReducer
+  useState: updateState, // INFO updateState内部执行的还是updateReducer
   useDebugValue: updateDebugValue,
   useDeferredValue: updateDeferredValue,
   useTransition: updateTransition,

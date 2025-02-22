@@ -1144,6 +1144,7 @@ function updateFunctionComponent(
     );
     hasId = checkDidRenderIdHook();
   } else {
+    // INFO render阶段处理hook
     nextChildren = renderWithHooks(
       current,
       workInProgress,
