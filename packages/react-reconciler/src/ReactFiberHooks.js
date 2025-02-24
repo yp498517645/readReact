@@ -1292,6 +1292,7 @@ function mountReducer<S, I, A>(
   initialArg: I,
   init?: I => S,
 ): [S, Dispatch<A>] {
+  // 初始化hook or 将hook加入到当前的hook链表中
   const hook = mountWorkInProgressHook();
   let initialState;
   if (init !== undefined) {

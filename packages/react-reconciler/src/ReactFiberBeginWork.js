@@ -324,6 +324,8 @@ if (__DEV__) {
   didWarnAboutDefaultPropsOnFunctionComponent = ({}: {[string]: boolean});
 }
 
+
+// INFO DIFF对比
 export function reconcileChildren(
   current: Fiber | null,
   workInProgress: Fiber,
@@ -1170,7 +1172,7 @@ function updateFunctionComponent(
 
   // React DevTools reads this flag.
   workInProgress.flags |= PerformedWork;
-  // INFO render阶段 - diff对比
+  // INFO render阶段-diff对比
   reconcileChildren(current, workInProgress, nextChildren, renderLanes);
   return workInProgress.child;
 }

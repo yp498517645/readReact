@@ -371,6 +371,7 @@ type ChildReconciler = (
 // to be able to optimize each path individually by branching early. This needs
 // a compiler or we can do it manually. Helpers that don't need this branching
 // live outside of this function.
+// INFO DIFF具体实现
 function createChildReconciler(
   shouldTrackSideEffects: boolean,
 ): ChildReconciler {
