@@ -1101,7 +1101,7 @@ function createChildReconciler(
     }
     return knownKeys;
   }
-
+ // INFO：diff多个子节点的情况 
   function reconcileChildrenArray(
     returnFiber: Fiber,
     currentFirstChild: Fiber | null,
