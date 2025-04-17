@@ -86,6 +86,7 @@ export function isContainerMarkedAsRoot(node: Container): boolean {
 // pass the Container node as the targetNode, you will not actually get the
 // HostRoot back. To get to the HostRoot, you need to pass a child of it.
 // The same thing applies to Suspense boundaries.
+// INFO：找到给定DOM节点所关联的最近的Fiber节点 
 export function getClosestInstanceFromNode(targetNode: Node): null | Fiber {
   let targetInst = (targetNode: any)[internalInstanceKey];
   if (targetInst) {

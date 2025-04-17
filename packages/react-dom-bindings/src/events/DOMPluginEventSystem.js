@@ -412,6 +412,7 @@ export function listenToNativeEventForNonManagedEventTarget(
 
 const listeningMarker = '_reactListening' + Math.random().toString(36).slice(2);
 
+// INFO 绑定合成事件
 export function listenToAllSupportedEvents(rootContainerElement: EventTarget) {
   if (!(rootContainerElement: any)[listeningMarker]) {
     (rootContainerElement: any)[listeningMarker] = true;
