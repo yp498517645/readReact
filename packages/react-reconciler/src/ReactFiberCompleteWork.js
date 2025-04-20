@@ -179,7 +179,7 @@ import {suspendCommit} from './ReactFiberThenable';
 
 /**
  * Tag the fiber with an update effect. This turns a Placement into
- * a PlacementAndUpdate.
+ * a AndUpdate.
  */
 function markUpdate(workInProgress: Fiber) {
   workInProgress.flags |= Update;

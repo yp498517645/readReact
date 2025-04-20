@@ -155,6 +155,8 @@ function FiberNode(
 
   this.pendingProps = pendingProps;
   this.memoizedProps = null;
+  // INFO Fiber的updateQueue属性用于存放 比如useEffect/useLayoutEffect的hook的副作用函数
+  // 更准确的区分是：状态管理 Hook（如 useState、useReducer）的 Update 在 render 阶段处理，而副作用 Hook（如 useEffect、useLayoutEffect）的副作用在 commit 阶段执行。
   this.updateQueue = null;
   this.memoizedState = null;
   this.dependencies = null;
