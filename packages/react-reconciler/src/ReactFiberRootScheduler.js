@@ -315,7 +315,7 @@ function processRootScheduleInMicrotask() {
 }
 
 
-
+// INFO 检查是否有lanes挨饿，如果有则标记他们为过期，并且提升优先级（以便下次执行）
 function scheduleTaskForRootDuringMicrotask(
   root: FiberRoot,
   currentTime: number,
